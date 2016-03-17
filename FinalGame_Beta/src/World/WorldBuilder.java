@@ -347,16 +347,14 @@ public class WorldBuilder {
 	
 	
 	//Adds stairs the the world
-	public void addStairs(int stairDensity){
-		int nx = 0;
-		int ny = 0;
-	
+public void addStairs(int stairDensity){
+		
+		//these are the 4 zones of the war
 		Tile[][][] sectorOne= new Tile[width/2][height/2][numberOfFloors];
 		Tile[][][] sectorTwo= new Tile[width/2][height/2][numberOfFloors];
 		Tile[][][] sectorThree= new Tile[width/2][height/2][numberOfFloors];
 		Tile[][][] sectorFour= new Tile[width/2][height/2][numberOfFloors];
 		
-		do{
 		for(int x = 0; x<width; x++){
 			for(int y = 0; y<height; y++){
 				for(int z = 0; z<numberOfFloors; z++){
@@ -368,143 +366,144 @@ public class WorldBuilder {
 					
 				}}}
 		
+		//handel sector one
+		for(int k = 0; k<numberOfFloors; k++){
+			int newX = 0;
+			int newY = 0;
+			int test = 0;
 			
-		for(int z = 0; z<numberOfFloors; z++){
-			
-			for(int s=0; s<4; s++){
-				nx = 0;
-				ny=0;
-				if(s==0){
-					
-					if(stairCount(sectorOne,width/2, height/2, z)< stairDensity){
-						
-						while(!tiles[nx][ny][z].getWalkable()){
-						
-							nx= ThreadLocalRandom.current().nextInt(0, (width/2)-1);
-							ny =ThreadLocalRandom.current().nextInt(0, height/2);
-						}
-						addStair(tiles, nx,ny,z);
+			while(stairCount(sectorOne, k)<stairDensity){
+	
+				test++;
 				
+				for(int x = 0; x<width; x++){
+					for(int y = 0; y<height; y++){
+						for(int z = 0; z<numberOfFloors; z++){
+							
+						if(x<width/2 && y<height/2){sectorOne[x][y][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y<height/2){sectorTwo[x-width/2][y][z] = tiles[x][y][z];}
+						else if(x<width/2 && y>=height/2){sectorThree[x][y-height/2][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y>=height/2){sectorFour[x-width/2][y-height/2][z]=tiles[x][y][z];}
+							
+						}}}
+				
+				//finds random points 
+				newX = ThreadLocalRandom.current().nextInt(0, (width/2));
+				newY = ThreadLocalRandom.current().nextInt(0, height/2);
+				
+				if(k<numberOfFloors-1){
+					//.out.println(k+"/"+numberOfFloors);
+					
+				if(sectorOne[newX][newY][k].isGround()&&sectorOne[newX][newY][k+1].isGround()){addStair(tiles, newX, newY, k);}
+				}else{
+					if(sectorOne[newX][newY][k].isGround()){addStair(tiles, newX, newY, k);}
 				}
+				//System.out.println("one");
 					
-				}
-				if(s==1){
-					
-					if(stairCount(sectorTwo,width/2, height/2, z)< stairDensity){
-						
-						while(!tiles[nx][ny][z].getWalkable()){
-							
-							nx= ThreadLocalRandom.current().nextInt(width/2, width-1);
-							ny =ThreadLocalRandom.current().nextInt(0, height/2);
-							
-							
-							
-					}
-						
-						addStair(tiles, nx,ny,z);
-					
-				
-					}
-					
-				}
-				
-			if(s==2){
-					
-					if(stairCount(sectorThree,width/2, height/2, z)< stairDensity){
-						while(!tiles[nx][ny][z].getWalkable()){
-							
-							nx= ThreadLocalRandom.current().nextInt(0,width/2);
-							ny =ThreadLocalRandom.current().nextInt(height/2, height-1);
-							
-						
-						
-					}
-					
-						addStair(tiles, nx,ny,z);
-					
-				
-					}
-					
-				}
-				if(s==3){
-					if(stairCount(sectorFour,width/2, height/2, z)< stairDensity){
-						while(!tiles[nx][ny][z].getWalkable()){
-							
-							nx= ThreadLocalRandom.current().nextInt(width/2, width-1);
-							ny =ThreadLocalRandom.current().nextInt(height/2, height-1);
-							
-						
-				
-						
-					}
-					
-						addStair(tiles, nx,ny, z);
-					
-				
-					}
-					
-				}
-				
+				//if(test>1000){break;}
 			}
 			
+			while(stairCount(sectorTwo, k)<stairDensity){
 			
-		}
-		}while(countAllStairs(tiles)<stairDensity*numberOfFloors*4);
-		}
-
-	
-	
-	//use to replace all the void loading tiles int the game
-	public void ReplaceAllVoid(Tile t){
-		for(int x = 0; x < width; x++){
-			for(int y = 0; y < width; y++){
-				for(int z = 0; z<numberOfFloors; z++){
-					
-					if(tiles[x][y][z] == Tile.VOID){tiles[x][y][z] = t;}
-		
-	}
-}}}
-	
-
-	public int stairCount(Tile[][][] t, int width, int height, int z){
-		int stairCount = 0;
-		
-		for(int x = 0; x < width; x++){
-			for(int y = 0; y < height; y++){
+				test++;
 				
-					
-					if(t[x][y][z] == Tile.UpSTAIR){
-						
-						stairCount++;
-					}
-					
-					
-				}}
+				for(int x = 0; x<width; x++){
+					for(int y = 0; y<height; y++){
+						for(int z = 0; z<numberOfFloors; z++){
+							
+						if(x<width/2 && y<height/2){sectorOne[x][y][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y<height/2){sectorTwo[x-width/2][y][z] = tiles[x][y][z];}
+						else if(x<width/2 && y>=height/2){sectorThree[x][y-height/2][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y>=height/2){sectorFour[x-width/2][y-height/2][z]=tiles[x][y][z];}
+							
+						}}}
+				
+				//finds random points 
+				newX = ThreadLocalRandom.current().nextInt(0, (width/2));
+				newY = ThreadLocalRandom.current().nextInt(0, height/2);
+				if(k<numberOfFloors-1){
+				if(sectorTwo[newX][newY][k].isGround()&& sectorTwo[newX][newY][k+1].isGround()){addStair(tiles, newX+width/2, newY, k);}
+				}else{
+					if(sectorTwo[newX][newY][k].isGround()){
+						addStair(tiles, newX+width/2, newY, k);
+					System.out.println("pladed in sec 2");
+				}
+				
+				//if(test>1000){break;}
+			}
+				
+			}
+			while(stairCount(sectorThree, k)<stairDensity){
+				
+				test++;
+				
+				for(int x = 0; x<width; x++){
+					for(int y = 0; y<height; y++){
+						for(int z = 0; z<numberOfFloors; z++){
+							
+						if(x<width/2 && y<height/2){sectorOne[x][y][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y<height/2){sectorTwo[x-width/2][y][z] = tiles[x][y][z];}
+						else if(x<width/2 && y>=height/2){sectorThree[x][y-height/2][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y>=height/2){sectorFour[x-width/2][y-height/2][z]=tiles[x][y][z];}
+							
+						}}}
+				
+				//finds random points 
+				newX = ThreadLocalRandom.current().nextInt(0, (width/2));
+				newY = ThreadLocalRandom.current().nextInt(0, height/2);
+				
+				if(k<numberOfFloors-1){
+				if(sectorThree[newX][newY][k].isGround()&&sectorThree[newX][newY][k+1].isGround()){addStair(tiles, newX, newY+height/2, k);}
+				}else{
+					if(sectorThree[newX][newY][k].isGround()){addStair(tiles, newX, newY+height/2, k);}
+				}
+				//System.out.println("three");
+				//if(test>1000){break;}
+			}
+			
+while(stairCount(sectorFour, k)<stairDensity){
+				
+				test++;
+				
+				for(int x = 0; x<width; x++){
+					for(int y = 0; y<height; y++){
+						for(int z = 0; z<numberOfFloors; z++){
+							
+						if(x<width/2 && y<height/2){sectorOne[x][y][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y<height/2){sectorTwo[x-width/2][y][z] = tiles[x][y][z];}
+						else if(x<width/2 && y>=height/2){sectorThree[x][y-height/2][z] = tiles[x][y][z];}
+						else if(x>=width/2 && y>=height/2){sectorFour[x-width/2][y-height/2][z]=tiles[x][y][z];}
+							
+						}}}
+				
+				//finds random points 
+				newX = ThreadLocalRandom.current().nextInt(0, (width/2));
+				newY = ThreadLocalRandom.current().nextInt(0, height/2);
+				
+				if(k<numberOfFloors-1){
+				if(sectorFour[newX][newY][k].isGround()&&sectorFour[newX][newY][k+1].isGround()){addStair(tiles, newX+width/2, newY+height/2, k);}
+				}else{if(sectorFour[newX][newY][k].isGround()){addStair(tiles, newX+width/2, newY+height/2, k);}
+				}
+			
+				//if(test>1000){break;}
+				//System.out.println("four");
+			}
+			
 		
+			}
 		
-		return stairCount;
 	}
+
 	
-	public int countAllStairs(Tile[][][] t){
-int stairCount = 0;
-		
-		for(int x = 0; x < width; x++){
-			for(int y = 0; y < height; y++){
-				for(int z = 0; z<numberOfFloors; z++){
-					
-					if(t[x][y][z] == Tile.UpSTAIR){
-						
-						stairCount++;
-					}
-					
-					
-				}}}
-		
-		
-		return stairCount;
-		
-	}
+public void ReplaceAllVoid(Tile t){
+	for(int x = 0; x < width; x++){
+		for(int y = 0; y < width; y++){
+			for(int z = 0; z<numberOfFloors; z++){
+				
+				if(tiles[x][y][z] == Tile.VOID){tiles[x][y][z] = t;}
 	
+}
+}}}
 
 public int stairCount(Tile[][][] t, int z){
 	int stairCount = 0;
@@ -524,8 +523,47 @@ public int stairCount(Tile[][][] t, int z){
 	return stairCount;
 }
 
-public void addStair(Tile[][][] t, int x, int y, int z){
+public int stairCount(Tile[][][] t, int width, int height, int z){
+	int stairCount = 0;
 	
+	for(int x = 0; x < width; x++){
+		for(int y = 0; y < height; y++){
+			
+				
+				if(t[x][y][z] == Tile.UpSTAIR){
+					
+					stairCount++;
+				}
+				
+				
+			}}
+	
+	
+	return stairCount;
+}
+
+public int countAllStairs(Tile[][][] t){
+int stairCount = 0;
+	
+	for(int x = 0; x < width; x++){
+		for(int y = 0; y < height; y++){
+			for(int z = 0; z<numberOfFloors; z++){
+				
+				if(t[x][y][z] == Tile.UpSTAIR){
+					
+					stairCount++;
+				}
+				
+				
+			}}}
+	
+	
+	return stairCount;
+	
+}
+
+public void addStair(Tile[][][] t, int x, int y, int z){
+
 	
 	t[x][y][z] = Tile.UpSTAIR;
 	
@@ -543,4 +581,4 @@ public void addStair(Tile[][][] t, int x, int y, int z){
 
 }
 }
-		
+	
