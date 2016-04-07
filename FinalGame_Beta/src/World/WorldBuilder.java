@@ -39,35 +39,37 @@ public class WorldBuilder {
 	//constructs and outputs the final world
 	public World buildWorld(){return new World(tiles);}
 	
-	/*public WorldBuilder makeBaseRoom(){
+	public WorldBuilder makeBaseRoom(){
 		
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < height; y++){
-				for(int z = 0;  )
-			if(x == 0 ||y==0 || x == width-1 || y == height-1){tiles[x][y] = Tile.WALL;
-			
-			}else{tiles[x][y] = Tile.FLOOR;}
+				for(int z = 0; z<numberOfFloors; z++){
 				
-			}}
+			if(x == 0 ||y==0 || x == width-1 || y == height-1){tiles[x][y][z] = Tile.WALL;
+			
+			}else{tiles[x][y][z] = Tile.FLOOR;}
+				
+			}}}
 		
 		return this;
-	}*/
+	}
 	/**adds trees at random places */
-	/*
-	public WorldBuilder addTrees(float chance){
+	
+	public WorldBuilder addTrees(float concentration){
 		
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < height; y++){
+				for(int z = 0; z<numberOfFloors; z++){
 			
-				if(Math.random()<= chance && tiles[x][y]!= Tile.WALL){
-					tiles[x][y] = Tile.TREE;
+				if(Math.random()<= concentration && tiles[x][y][z]!= Tile.WALL){
+					tiles[x][y][z] = Tile.TREE;
 				}
-			}}
+			}}}
 		
 		
 		return this;
 	}
-	*/
+	
 	
 	/** Constructs an entire world from one room */
 	/*
@@ -107,6 +109,10 @@ public class WorldBuilder {
 		
 		
 		return this;}
+	
+	
+	
+	
 	
 	//----------------This ungodly function generates a random world of random rooms, good luck------------------------
 	public WorldBuilder RoomBasedRandom(int numberOfRooms){
