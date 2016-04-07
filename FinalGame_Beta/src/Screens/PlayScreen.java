@@ -245,8 +245,10 @@ public class PlayScreen implements Screen{// this screen is a test screen im usi
 		case KeyEvent.VK_J: if (player.z >= 1){ player.z--; }
 		break;
 		default: break;
+		case KeyEvent.VK_T: popUp.text = "Hello"; break;
 		case KeyEvent.VK_ENTER: popUp.next(); break;
 		}
+		
 	}
 		world.update();
 		

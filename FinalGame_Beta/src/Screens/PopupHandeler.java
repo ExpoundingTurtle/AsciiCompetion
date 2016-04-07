@@ -17,6 +17,7 @@ public class PopupHandeler{
 	int scroll;
 	boolean display;
 	int offset;
+	int lineOffset;
 	
 	public PopupHandeler(int x, int y, int width, int height){
 	text = "";
@@ -25,6 +26,7 @@ public class PopupHandeler{
 	this.width = width;
 	this.height = height;
 	offset = 0;
+	lineOffset = 0;
 	}
 	
 	
@@ -36,7 +38,7 @@ public class PopupHandeler{
 		
 	
 		if(text != null){
-		if(!text.isEmpty()&& text != null&& text != ""){
+		if(!text.isEmpty()&&  text != ""){
 			String[] arr = text.split(" ");
 			int lineWidth = width-2;
 			
@@ -50,7 +52,12 @@ public class PopupHandeler{
 		
 			if(numCharacters>= text.length()){
 				
-						
+				if(text.length()<= lineOffset){
+					
+					text = null; 
+					offset=0;
+					 
+					}
 						for(int al = 0; al<height-2;al++){
 							allLines[al] = lineWidth;
 						}
@@ -79,6 +86,8 @@ public class PopupHandeler{
 								terminal.write(arr[k], topX+1+(lineWidth-allLines[3]), topY+4);
 								//System.out.println(lineWidth-allLines[3]);
 								allLines[3] -= arr[k].length()+1;
+								//offset += numCharacters+20;
+								text = null;
 							}
 							
 						
@@ -93,50 +102,47 @@ public class PopupHandeler{
 									allLines[al] = lineWidth;
 								}
 								
-								if(text.length()>= offset){
-								 newS = text.substring(offset);
+								if(text.length()>= lineOffset){
+								 newS = text.substring(lineOffset);
 						
 								 
-								}else{text = null;}
+								}else{text = null; offset=0;}
 								
-								if(!newS.isEmpty() || newS != null){
-									
-									String[] newArr = newS.split(" ");
-									
-									for(int k = 0; k<newArr.length; k++){
-									
-										if(allLines[0]>newArr[k].length()){
-											
-											terminal.write(newArr[k], topX+1+(lineWidth-allLines[0]), topY+1);
-											//System.out.println(lineWidth-allLines[0]);
-											allLines[0] -= newArr[k].length()+1;
-											offset += newArr[k].length()+1;
-											
-										}else if(allLines[1]>newArr[k].length()){
-											allLines[0] = 0;
-											terminal.write(newArr[k], topX+1+(lineWidth-allLines[1]), topY+2);
-											//System.out.println(lineWidth-allLines[1]);
-											allLines[1] -= newArr[k].length()+1;
-											offset += newArr[k].length()+1;
-										}else if(allLines[2]>newArr[k].length()){
-											allLines[1] = 0;
-											
-											terminal.write(newArr[k], topX+1+(lineWidth-allLines[2]), topY+3);
-											
-											allLines[2] -= newArr[k].length()+1;
-											offset += newArr[k].length()+1;
-										}else if(allLines[3]>newArr[k].length()){
-											allLines[2] = 0;
-											terminal.write(newArr[k], topX+1+(lineWidth-allLines[3]), topY+4);
-											//System.out.println(lineWidth-allLines[3]);
-											allLines[3] -= newArr[k].length()+1;
-											offset += newArr[k].length()+1;
-										}else{allLines[3] = 0; return;}
+								String[] newArr = newS.split(" ");
+								
+								for(int k = 0; k<newArr.length; k++){
+								
+									if(allLines[0]>newArr[k].length()){
 										
-									
+										terminal.write(newArr[k], topX+1+(lineWidth-allLines[0]), topY+1);
+										//System.out.println(lineWidth-allLines[0]);
+										allLines[0] -= newArr[k].length()+1;
+										offset += newArr[k].length()+1;
 										
-									}
-								}else{text =null;}
+									}else if(allLines[1]>newArr[k].length()){
+										allLines[0] = 0;
+										terminal.write(newArr[k], topX+1+(lineWidth-allLines[1]), topY+2);
+										//System.out.println(lineWidth-allLines[1]);
+										allLines[1] -= newArr[k].length()+1;
+										offset += newArr[k].length()+1;
+									}else if(allLines[2]>newArr[k].length()){
+										allLines[1] = 0;
+										
+										terminal.write(newArr[k], topX+1+(lineWidth-allLines[2]), topY+3);
+										
+										allLines[2] -= newArr[k].length()+1;
+										offset += newArr[k].length()+1;
+									}else if(allLines[3]>newArr[k].length()){
+										allLines[2] = 0;
+										terminal.write(newArr[k], topX+1+(lineWidth-allLines[3]), topY+4);
+										//System.out.println(lineWidth-allLines[3]);
+										allLines[3] -= newArr[k].length()+1;
+										offset += newArr[k].length()+1;
+									}else{allLines[3] = 0;  return;}
+									
+								
+									
+								}
 							}
 							}
 							}
@@ -150,7 +156,7 @@ public void next(){
 	
 	
 		 
-		scroll++;
+		lineOffset = offset;
 		 
 	 }
 	
