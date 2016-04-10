@@ -22,7 +22,7 @@ public class ApplicationMain extends JFrame implements KeyListener {
 	public int terminalHeight() { return terminalHeight; }
 	
 	//The current version of the application
-	public String version = "0.0.3";
+	public String version = "0.0.4";
 	
 	public ApplicationMain(){
 		super();
