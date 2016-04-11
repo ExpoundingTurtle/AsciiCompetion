@@ -134,7 +134,7 @@ private void textBoxDisplay(AsciiPanel terminal){
 		 //resets the Line Offset
 		 lineOffset = 0;
 		 //Writes a message to let the player know that they have reached the end of the diolouge they are reading
-		 terminal.write("---Message End---", topX=2, topY+1);
+		 terminal.write("---Message End---", topX+2, topY+1);
 		 
 		 //sets the display of this box to false
 		 display = false;
